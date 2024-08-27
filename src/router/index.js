@@ -1,29 +1,31 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import UserSearch from '@/components/pages/UserSearch.vue';
-import UserDetail from '@/components/pages/UserDetail.vue';
-import BookSearch from '@/components/pages/BookSearch.vue';
-import BookDetail from '@/components/pages/BookDetail.vue';
-
+import { createRouter, createWebHistory } from 'vue-router'
+import UserSearch from '@/components/pages/UserSearch.vue'
+import UserDetail from '@/components/pages/UserDetail.vue'
+import BookSearch from '@/components/pages/BookSearch.vue'
+import BookDetail from '@/components/pages/BookDetail.vue'
 
 const routes = [
   {
-    path: '/user',
+    path: '/',
     component: UserSearch
-  }, {
+  },
+  {
     path: '/userdetail',
-    component: UserDetail,
-  }, {
+    component: UserDetail
+  },
+  {
     path: '/book',
-    component: BookSearch,
-  }, {
+    component: BookSearch
+  },
+  {
     path: '/bookdetail',
     component: BookDetail
   }
-];
+]
 
 const router = createRouter({
   history: createWebHistory(), // Use history mode
-  routes,
-});
+  routes
+})
 
-export default router;
+export default router
