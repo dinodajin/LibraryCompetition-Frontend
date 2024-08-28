@@ -64,15 +64,22 @@ const store = createStore({
           alert(error.response?.data?.message || '데이터를 가져오는 데 실패했습니다.')
         })
     },
-    fetchBook({ commit }, bookId) {
-      axiosInstance
-        .get(`/book/get/${bookId}`)
-        .then((response) => {
-          commit('setBook', response.data)
-        })
-        .catch((error) => {
-          alert(error.response.data.message)
-        })
+    async fetchBookById({ state, commit }, id) {
+      try {
+        // 로컬 상태에서 책을 찾기
+        const book = state.bookList.find(book => book.bookId === id);
+        if (book) {
+          return book;
+        } else {
+          // 로컬 상태에서 책을 찾지 못한 경우 API를 호출
+          const response = await axiosInstance.get(`/book/get/${id}`);
+          commit('setBook', response.data); // 새 책 정보를 스토어에 저장
+          return response.data;
+        }
+      } catch (error) {
+        console.error('책 정보 가져오기 실패:', error);
+        return null;
+      }
     },
 
     // Member

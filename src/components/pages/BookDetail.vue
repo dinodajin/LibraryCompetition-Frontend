@@ -3,7 +3,8 @@
     <Sidebar />
     <div class="grid-container">
       <div class="left-column">
-        <BookProfile />
+        <!-- 전달된 book 데이터를 props로 넘김 -->
+        <BookProfile :book="book" />
         <DamageRate />
         <ReportSection />
       </div>
@@ -28,6 +29,26 @@ import LoanRecords from '../component/BookLoanRecords.vue';
 import DamageRecords from '../component/DamageRecords.vue';
 import DamageDetails from '../component/DamageDetails.vue';
 import Sidebar from '../component/Sidebar.vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+
+const store = useStore();
+const route = useRoute();
+const book = ref(null);
+
+const fetchBookDetails = async () => {
+  const id = route.query.id as string; // URL 쿼리 파라미터에서 id 추출
+  if (id) {
+    book.value = await store.dispatch('fetchBookById', id);
+  } else {
+    console.error('No book ID found in route query parameters.');
+  }
+}
+
+onMounted(() => {
+  fetchBookDetails();
+});
 </script>
 
 <style scoped>
@@ -64,7 +85,6 @@ import Sidebar from '../component/Sidebar.vue';
 .top-row {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  /* height: 100%; */
   gap: 16px;
 }
 
