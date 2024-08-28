@@ -59,6 +59,9 @@ const store = createStore({
     getMemberById: (state) => (id) => {
       const member = state.memberList.find(member => member.memberId === id);
       return member ? member.memberName : 'Unknown';
+    },
+    getDamagedBooks(state) {
+      return state.bookList.filter(book => book.bookWarning === '위험');
     }
   },
 
