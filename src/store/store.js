@@ -66,7 +66,10 @@ const store = createStore({
     },
     getDamagedBooks(state) {
       return state.bookList.filter((book) => book.bookWarning === '위험')
-    }
+    },
+    getBadMemberList(state) {
+      return state.memberList.filter((member) => member.memberWarning === '위험');
+    },
   },
 
   mutations: {

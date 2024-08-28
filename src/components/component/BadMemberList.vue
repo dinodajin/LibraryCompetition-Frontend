@@ -1,46 +1,37 @@
-<!-- BadUserList.vue -->
 <template>
   <div class="bad-member-container">
     <h3>불량 사용자 리스트</h3>
     <div class="bad-member-list">
-    <ul>
-      <li v-for="member in badMembers" 
-      :key="member.id" class="bad-member-item" 
-      @click="goToMemberDetail(member.id)">
-        {{ member.name }}
-      </li>
-    </ul>
+      <ul>
+        <li v-for="member in badMembers" 
+            :key="member.id" 
+            class="bad-member-item" 
+            @click="goToMemberDetail(member.id)">
+          {{ member.memberName }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
+const store = useStore();
 const router = useRouter();
+
+const badMembers = computed(() => store.getters.getBadMemberList);
 
 const goToMemberDetail = (memberId: number) => {
   router.push({ path: '/memberdetail', query: { id: memberId } });
 };
 
-const badMembers = [
-  { id: 1, name: 'Natali Craig' },
-  { id: 2, name: 'Drew Cano' },
-  { id: 3, name: 'Andi Lane' },
-  { id: 4, name: 'Koray Okumus' },
-  { id: 5, name: 'Kate Morrison' },
-  { id: 6, name: 'Melody Macy' },
-  { id: 7, name: 'Megan Bowen' },
-  { id: 8, name: 'Ava Peters' },
-  { id: 9, name: 'Leo Johnson' },
-  { id: 10, name: 'Isabella Brown' },
-  { id: 11, name: 'Mason Smith' },
-  { id: 12, name: 'Sophia Davis' },
-  { id: 13, name: 'Liam Wilson' },
-  { id: 14, name: 'Oliver Martinez' },
-  { id: 15, name: 'Amelia Anderson' },
-  { id: 16, name: 'James Thomas' },
-];
+// 컴포넌트가 마운트될 때 회원 목록을 가져옴
+onMounted(() => {
+  store.dispatch('fetchMembers');
+});
 </script>
 
 <style scoped>
