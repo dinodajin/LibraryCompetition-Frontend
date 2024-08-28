@@ -5,11 +5,11 @@
       <a href="#" class="view-all"><strong>View All</strong></a>
     </div>
     <div class="report-list">
-      <div class="report-item" v-for="report in reports" :key="report.id">
+      <div class="report-item" v-for="loan in loanRecords" :key="loan.id">
         <div class="member-info">
-          <strong>{{ report.name }}</strong>
+          <strong>{{ getMemberName(loan.memberId) }}</strong>
         </div>
-        <p>{{ report.text }}</p>
+        <p>{{ loan.declaration }}</p>
       </div>
     </div>
     <div class="bottom-space"></div>
@@ -17,19 +17,27 @@
 </template>
 
 <script setup lang="ts">
-const reports = [
-  { id: 1, name: '김철수', text: '책 커버가 찢어졌습니다.' },
-  { id: 2, name: '이영희', text: '책에 커피 자국이 있습니다.' },
-  { id: 3, name: '박민수', text: '책에 페이지가 찢어졌습니다.' },
-  { id: 4, name: '최수지', text: '책 모서리가 심하게 구겨졌습니다.' },
-  { id: 5, name: '장민지', text: '책에 젖은 자국이 있습니다.' },
-  { id: 6, name: '윤다은', text: '책에 펜으로 낙서가 되어 있습니다.' },
-  { id: 7, name: '김서준', text: '책에 음료가 쏟아졌습니다.' },
-  { id: 8, name: '박지훈', text: '책이 심하게 훼손되었습니다.' },
-  { id: 9, name: '정유진', text: '책 페이지가 물에 젖었습니다.' },
-  { id: 10, name: '오한나', text: '책 표지가 분리되었습니다.' },
-  // More reports
-];
+import { computed, onMounted } from 'vue';
+import { defineProps } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+
+const store = useStore();
+const route = useRoute();
+const loanRecords = computed(() => store.getters.getLoanRecords);
+
+const getMemberName = (memberId: string) => {
+  return store.getters.getMemberById(memberId);
+};
+
+// 컴포넌트가 마운트될 때 대출 기록을 가져옴
+onMounted(() => {
+  const bookId = route.query.id as string;
+  if (bookId) {
+    store.dispatch('fetchLoanRecords', bookId);
+    store.dispatch('fetchMembers');
+  }
+});
 </script>
 
 <style scoped>
