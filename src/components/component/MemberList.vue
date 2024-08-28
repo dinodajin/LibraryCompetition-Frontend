@@ -1,32 +1,31 @@
 <template>
-  <div class="book-list">
-    <h3>Books</h3>
+  <div class="member-list">
+    <h3>Members</h3>
     <div class="list-container">
       <table>
         <thead>
           <tr>
-            <th>SEQUENCE</th>
-            <th>TITLE</th>
-            <th>AUTHOR</th>
-            <th>DAMAGE</th>
-            <th>LABEL</th>
+            <th>NAME</th>
+            <th>BIRTHDAY</th>
+            <th>PHONE NUMBER</th>
+            <th>WARNING</th>
+            <th>DAMAGE COUNT</th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="book in books"
-            :key="book.bookId"
-            class="book-row"
-            @click="goToBookDetail(book.bookId)"
+          <tr v-for="member in members" 
+          :key="member.id" 
+          class="member-row"
+          @click="goToMemberDetail(member.memberId)"
           >
-          <td>{{ book.bookSequence }}</td>
-          <td>{{ book.bookTitle }}</td>
-            <td>{{ book.bookAuthor }}</td>
-            <td>{{ book.bookDamage }}</td>
-            <td>{{ book.bookLabel }}</td>
+            <td>{{ member.memberName }}</td>
+            <td>{{ member.memberBirth }}</td>
+            <td>{{ member.memberPhoneNumber }}</td>
+            <td>{{ member.memberWarning }}</td>
+            <td>{{ member.memberDamageCount }}</td>
             <td>
-              <span :class="['book-status', statusClass(book.bookDamage)]">
-                {{ statusClass(book.bookDamage) }}
+              <span :class="['member-status', statusClass(member.memberDamageCount)]">
+                {{ statusClass(member.memberDamageCount) }}
               </span>
             </td>
           </tr>
@@ -43,22 +42,20 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 const router = useRouter()
+const members = computed(() => store.state.memberList)
 
-const books = computed(() => store.state.bookList)
-
-const fetchBooks = () => {
-  store.dispatch('fetchBooks')
+const fetchMembers = () => {
+  store.dispatch('fetchMembers')
 }
 
-// 책 상세 페이지로 이동
-const goToBookDetail = (bookId: number) => {
-  router.push({ path: '/bookdetail', query: { id: bookId } })
+// 사용자 상세 페이지로 이동
+const goToMemberDetail = (memberId: number) => {
+  router.push({ path: '/memberdetail', query: { id: memberId } })
 }
 
-
-// 컴포넌트가 마운트될 때 책 목록을 가져옴
+// 컴포넌트가 마운트될 때 사용자 목록을 가져옴
 onMounted(() => {
-  fetchBooks()
+  fetchMembers()
 })
 
 // 상태 클래스 결정
@@ -79,7 +76,7 @@ const statusClass = (status: number) => {
 </script>
 
 <style scoped>
-.book-list {
+.member-list {
   display: flex;
   flex-direction: column;
   width: auto;
@@ -131,15 +128,15 @@ tbody td {
   border-bottom: 1px solid #eee;
 }
 
-.book-row {
+.member-row {
   transition: transform 0.2s ease-in-out;
 }
 
-.book-row:hover {
+.member-row:hover {
   transform: scale(1.02);
 }
 
-.book-status {
+.member-status {
   padding: 5px 10px;
   border-radius: 10px;
   color: #fff;

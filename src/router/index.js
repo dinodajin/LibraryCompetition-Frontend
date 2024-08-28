@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import UserSearch from '@/components/pages/UserSearch.vue'
-import UserDetail from '@/components/pages/UserDetail.vue'
+import MemberSearch from '@/components/pages/MemberSearch.vue'
+import MemberDetail from '@/components/pages/MemberDetail.vue'
 import BookSearch from '@/components/pages/BookSearch.vue'
 import BookDetail from '@/components/pages/BookDetail.vue'
 
 const routes = [
   {
-    path: '/',
-    component: UserSearch
+    path: '/member',
+    component: MemberSearch
   },
   {
-    path: '/userdetail',
-    component: UserDetail
+    path: '/memberdetail',
+    component: MemberDetail,
+    name: 'MemberDetail'
   },
   {
     path: '/book',

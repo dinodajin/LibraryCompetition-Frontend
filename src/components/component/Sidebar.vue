@@ -4,7 +4,7 @@
     <div class="logo">MyLibrary</div>
     <nav>
       <ul>
-        <li class="nav-item" @click="goToUserPage">사용자 정보</li>
+        <li class="nav-item" @click="goToMemberPage">사용자 정보</li>
         <li class="nav-item" @click="goToBookPage">도서 정보</li>
       </ul>
     </nav>
@@ -16,8 +16,8 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const goToUserPage = () => {
-  router.push({ path: '/user'});
+const goToMemberPage = () => {
+  router.push({ path: '/member'});
 };
 
 const goToBookPage = () => {

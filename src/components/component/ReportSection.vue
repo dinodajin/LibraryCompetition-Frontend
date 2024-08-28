@@ -6,7 +6,7 @@
     </div>
     <div class="report-list">
       <div class="report-item" v-for="report in reports" :key="report.id">
-        <div class="user-info">
+        <div class="member-info">
           <strong>{{ report.name }}</strong>
         </div>
         <p>{{ report.text }}</p>
@@ -93,7 +93,7 @@ h3 {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Slightly reduce the shadow on hover */
 }
 
-.user-info {
+.member-info {
   margin-bottom: 8px;
   font-weight: bold;
   color: #333;

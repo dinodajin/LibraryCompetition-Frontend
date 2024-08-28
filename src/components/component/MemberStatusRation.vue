@@ -1,13 +1,13 @@
-<!-- UserStatusRatio.vue -->
+<!-- MemberStatusRatio.vue -->
 <template>
-  <div class="user-status-ratio">
+  <div class="member-status-ratio">
     <!-- Replace this with actual chart component -->
     <div>Ratio Chart Placeholder</div>
   </div>
 </template>
 
 <style scoped>
-.user-status-ratio {
+.member-status-ratio {
   display: flex;
   flex: 1;
   background-color: #ffffff;

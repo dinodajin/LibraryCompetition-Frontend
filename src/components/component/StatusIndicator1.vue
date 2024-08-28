@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 
-interface User {
+interface Member {
   loanCount: number;
   damageCount: number;
 }
 
-const user = ref<User>({ loanCount: 10, damageCount: 3 });
+const member = ref<Member>({ loanCount: 10, damageCount: 3 });
 
-const riskScore = computed(() => user.value.loanCount * 2 + user.value.damageCount * 10);
+const riskScore = computed(() => member.value.loanCount * 2 + member.value.damageCount * 10);
 
 const riskLevel = computed(() => {
   if (riskScore.value < 30) return { label: '청정', color: '#007bff' };
@@ -26,8 +26,8 @@ const riskLevel = computed(() => {
         <p>{{ riskScore }}</p>
       </div>
       <div class="status-details">
-        <p><strong>대출 횟수:</strong> {{ user.loanCount }}</p>
-        <p><strong>훼손 횟수:</strong> {{ user.damageCount }}</p>
+        <p><strong>대출 횟수:</strong> {{ member.loanCount }}</p>
+        <p><strong>훼손 횟수:</strong> {{ member.damageCount }}</p>
       </div>
     </div>
   </div>

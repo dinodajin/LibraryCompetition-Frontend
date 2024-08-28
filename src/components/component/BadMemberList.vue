@@ -1,11 +1,13 @@
 <!-- BadUserList.vue -->
 <template>
-  <div class="bad-user-container">
+  <div class="bad-member-container">
     <h3>불량 사용자 리스트</h3>
-    <div class="bad-user-list">
+    <div class="bad-member-list">
     <ul>
-      <li v-for="user in badUsers" :key="user.id" class="bad-user-item" @click="goToUserDetail(user.id)">
-        {{ user.name }}
+      <li v-for="member in badMembers" 
+      :key="member.id" class="bad-member-item" 
+      @click="goToMemberDetail(member.id)">
+        {{ member.name }}
       </li>
     </ul>
     </div>
@@ -17,11 +19,11 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const goToUserDetail = (userId: number) => {
-  router.push({ path: '/userdetail', query: { id: userId } });
+const goToMemberDetail = (memberId: number) => {
+  router.push({ path: '/memberdetail', query: { id: memberId } });
 };
 
-const badUsers = [
+const badMembers = [
   { id: 1, name: 'Natali Craig' },
   { id: 2, name: 'Drew Cano' },
   { id: 3, name: 'Andi Lane' },
@@ -42,7 +44,7 @@ const badUsers = [
 </script>
 
 <style scoped>
-.bad-user-container {
+.bad-member-container {
   display: flex;
   flex-direction: column;
   flex: 0.5;
@@ -72,12 +74,12 @@ ul {
   gap: 10px;
 }
 
-.bad-user-list {
+.bad-member-list {
   padding: 20px;
   overflow-y: auto;
 }
 
-.bad-user-item {
+.bad-member-item {
   flex: 1 1 calc(50% - 10px); /* 2개씩 블럭 형태로 배치 */
   background-color: #f5f7fa;
   padding: 10px;
@@ -90,7 +92,7 @@ ul {
   overflow-y: auto;
 }
 
-.bad-user-item:hover {
+.bad-member-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }

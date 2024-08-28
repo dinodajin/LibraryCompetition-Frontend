@@ -3,10 +3,11 @@
     <Sidebar />
     <div class="grid-container">
       <div class="left-column">
-        <ProfileCard />
+        <!-- 전달된 member 데이터를 props로 넘김 -->
+        <ProfileCard :member="member" />
         <CurrentLoans />
       </div>
-      <div class="right-colunm">
+      <div class="right-column">
         <div class="top-row">
           <StatusIndicator1 />
           <ReturnRecord />
@@ -20,14 +21,32 @@
 </template>
 
 <script setup lang="ts">
-import ProfileCard from '../component/ProfileCard.vue';
-import StatusIndicator1 from '../component/StatusIndicator1.vue';
-import LoanRecord from '../component/LoanRecord.vue';
-import ReturnRecord from '../component/UserDamageList.vue';
-import CurrentLoans from '../component/CurrentLoans.vue';
+import ProfileCard from '../component/ProfileCard.vue'
+import StatusIndicator1 from '../component/StatusIndicator1.vue'
+import LoanRecord from '../component/LoanRecord.vue'
+import ReturnRecord from '../component/MemberDamageList.vue'
+import CurrentLoans from '../component/CurrentLoans.vue'
 import Sidebar from '../component/Sidebar.vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
+const store = useStore()
+const route = useRoute()
+const member = ref(null)
 
+const fetchMemberDetails = async () => {
+  const id = route.query.id as string // URL 쿼리 파라미터에서 id 추출
+  if (id) {
+    member.value = await store.dispatch('fetchMemberById', id)
+  } else {
+    console.error('No member ID found in route query parameters.')
+  }
+}
+
+onMounted(() => {
+  fetchMemberDetails()
+})
 </script>
 
 <style scoped>
@@ -52,11 +71,10 @@ import Sidebar from '../component/Sidebar.vue'
 }
 
 .left-column > * {
-  /* Ensure components in left-column are responsive */
   max-width: 100%;
 }
 
-.right-colunm {
+.right-column {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -65,7 +83,6 @@ import Sidebar from '../component/Sidebar.vue'
 .top-row {
   display: grid;
   grid-template-columns: 2fr 3fr;
-  /* height: 100%; */
   gap: 16px;
 }
 

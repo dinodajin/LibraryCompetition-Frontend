@@ -4,26 +4,30 @@
     <div class="info-text">
       <table>
         <tbody>
-        <tr> 
-            <!-- NAME -->
+          <tr>
             <th>NAME</th>
-            <td v-for="loan in loans" :key="loan.name">{{ loan.name }}</td>
-        </tr>
-        <tr>
-            <!-- AGE -->
+            <td>{{ member?.memberName }}</td>
+          </tr>
+          <tr>
             <th>AGE</th>
-            <td v-for="loan in loans" :key="loan.name">{{ loan.age }}</td>
-        </tr>
-        <tr>
-            <!-- E-MAIL -->
-            <th>E-MAIL</th>
-            <td v-for="loan in loans" :key="loan.name">{{ loan.email }}</td>
-        </tr>
-        <tr>
-            <!-- NUMBER -->
-            <th>BOOK NUMBER</th>
-            <td v-for="loan in loans" :key="loan.name">{{ loan.number }}</td>
-        </tr>
+            <td>{{ member ? calculateAge(member.memberBirth) : 'N/A' }}</td>
+          </tr>
+          <tr>
+            <th>BIRTHDAY</th>
+            <td>{{ member?.memberBirth }}</td>
+          </tr>
+          <tr>
+            <th>PHONE NUMBER</th>
+            <td>{{ member?.memberPhoneNumber }}</td>
+          </tr>
+          <tr>
+            <th>WARNING</th>
+            <td>{{ member?.memberWarning }}</td>
+          </tr>
+          <tr>
+            <th>DAMAGE COUNT</th>
+            <td>{{ member?.memberDamageCount }}</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -31,10 +35,24 @@
 </template>
 
 <script setup lang="ts">
-const loans = [
-{ name: '이승현', age: '29', email: 'user4@gmail.com', number: '010-4567-8901' }
-// More loans
-];
+import { defineProps } from 'vue'
+
+const props = defineProps<{
+  member: {
+    memberName: string,
+    memberBirth: string,
+    memberPhoneNumber: string,
+    memberWarning: string,
+    memberDamageCount: number
+  }
+}>()
+
+// 나이계산
+const calculateAge = (birthdate: string) => {
+  const birthYear = new Date(birthdate).getFullYear()
+  const currentYear = new Date().getFullYear()
+  return currentYear - birthYear
+}
 </script>
 
 <style scoped>
@@ -61,14 +79,14 @@ const loans = [
 }
 
 @media screen and (max-width: 768px) {
-.profile-card {
-  font-size: 0.875rem; /* Reduce font size for smaller screens */
-}
+  .profile-card {
+    font-size: 0.875rem; /* Reduce font size for smaller screens */
+  }
 }
 
 @media screen and (max-width: 480px) {
-.profile-card {
-  font-size: 0.75rem; /* Further reduce font size for very small screens */
-}
+  .profile-card {
+    font-size: 0.75rem; /* Further reduce font size for very small screens */
+  }
 }
 </style>
