@@ -1,6 +1,6 @@
 <template>
   <div class="loan-records">
-    <h3>도서 대출 기록</h3>
+    <h3>해당 도서 대출자 기록</h3>
     <div class="table-container">
       <table>
         <thead>

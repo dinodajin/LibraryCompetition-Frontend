@@ -1,7 +1,7 @@
 <template>
   <div class="report-section">
     <div class="headline">
-      <h3>신고내용</h3>
+      <h3>훼손 내용 제보</h3>
       <a href="#" class="view-all"><strong>View All</strong></a>
     </div>
     <div class="report-list">

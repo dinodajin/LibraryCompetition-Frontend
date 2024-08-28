@@ -1,6 +1,6 @@
 <template>
   <div class="bad-member-container">
-    <h3>불량 사용자 리스트</h3>
+    <h3>악성 사용자 리스트</h3>
     <div class="bad-member-list">
       <ul>
         <li v-for="member in badMembers" 
