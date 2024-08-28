@@ -5,18 +5,18 @@
       <table>
         <thead>
           <tr>
-            <th>NAME</th>
+            <th>이름</th>
             <th>대출일</th>
             <th>반납일</th>
-            <th>훼손유무</th>
+            <th>도서 상태</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="loan in loans" :key="loan.id">
-            <td>{{ loan.name }}</td>
-            <td>{{ loan.borrowed }}</td>
-            <td>{{ loan.returned }}</td>
-            <td><span :class="['loan-status', statusClass(loan.status)]">{{ loan.status }}</span></td>
+          <tr v-for="loan in loanRecords" :key="loan.id">
+            <td>{{ getMemberName(loan.memberId) }}</td>
+            <td>{{ loan.loanTime }}</td>
+            <td>{{ loan.returnTime }}</td>
+            <td><span :class="['loan-status', statusClass(loan.damageDegree)]">{{ loan.damageDegree }}</span></td>
           </tr>
         </tbody>
       </table>
@@ -26,17 +26,18 @@
 </template>
 
 <script setup lang="ts">
-const loans = [
-  { id: 1, name: '이하연', borrowed: '2024-08-03', returned: '2024-08-10', status: '훼손' },
-  { id: 2, name: '김민준', borrowed: '2024-06-12', returned: '2024-06-19', status: '정상' },
-  { id: 3, name: '이수빈', borrowed: '2024-05-12', returned: '2024-05-19', status: '훼손' },
-  { id: 4, name: '박지훈', borrowed: '2024-04-12', returned: '2024-04-19', status: '훼손' },
-  { id: 5, name: '최지현', borrowed: '2024-03-12', returned: '2024-03-19', status: '정상' },
-  { id: 6, name: '윤지훈', borrowed: '2024-02-12', returned: '2024-02-19', status: '훼손' },
-  { id: 7, name: '강나래', borrowed: '2024-01-12', returned: '2024-01-19', status: '정상' },
-  { id: 8, name: '이예린', borrowed: '2023-12-12', returned: '2023-12-19', status: '정상' },
-  // More loans...
-];
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+
+const store = useStore();
+const route = useRoute();
+
+const loanRecords = computed(() => store.getters.getLoanRecords);
+
+const getMemberName = (memberId: string) => {
+  return store.getters.getMemberById(memberId);
+};
 
 const statusClass = (status: string) => {
   switch (status) {
@@ -44,8 +45,19 @@ const statusClass = (status: string) => {
       return 'danger';
     case '정상':
       return 'safe';
+    default:
+      return '';
   }
-}
+};
+
+// 컴포넌트가 마운트될 때 대출 기록을 가져옴
+onMounted(() => {
+  const bookId = route.query.id as string;
+  if (bookId) {
+    store.dispatch('fetchLoanRecords', bookId);
+    store.dispatch('fetchMembers');
+  }
+});
 </script>
 
 <style scoped>

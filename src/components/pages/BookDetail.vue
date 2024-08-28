@@ -22,33 +22,33 @@
 </template>
 
 <script setup lang="ts">
-import BookProfile from '../component/BookProfile.vue';
-import ReportSection from '../component/ReportSection.vue';
-import DamageRate from '../component/DamageRate.vue';
-import LoanRecords from '../component/BookLoanRecords.vue';
-import DamageRecords from '../component/DamageRecords.vue';
-import DamageDetails from '../component/DamageDetails.vue';
-import Sidebar from '../component/Sidebar.vue';
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import BookProfile from '../component/BookProfile.vue'
+import ReportSection from '../component/ReportSection.vue'
+import DamageRate from '../component/DamageRate.vue'
+import LoanRecords from '../component/BookLoanRecords.vue'
+import DamageRecords from '../component/DamageRecords.vue'
+import DamageDetails from '../component/DamageDetails.vue'
+import Sidebar from '../component/Sidebar.vue'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 
-const store = useStore();
-const route = useRoute();
-const book = ref(null);
+const store = useStore()
+const route = useRoute()
+const book = ref(null)
 
 const fetchBookDetails = async () => {
-  const id = route.query.id as string; // URL 쿼리 파라미터에서 id 추출
+  const id = route.query.id as string // URL 쿼리 파라미터에서 id 추출
   if (id) {
-    book.value = await store.dispatch('fetchBookById', id);
+    book.value = await store.dispatch('fetchBookById', id)
   } else {
-    console.error('No book ID found in route query parameters.');
+    console.error('No book ID found in route query parameters.')
   }
 }
 
 onMounted(() => {
-  fetchBookDetails();
-});
+  fetchBookDetails()
+})
 </script>
 
 <style scoped>
@@ -110,7 +110,9 @@ onMounted(() => {
     padding: 10px;
   }
 
-  .left-column, .right-column, .bottom-row {
+  .left-column,
+  .right-column,
+  .bottom-row {
     gap: 8px;
   }
 }

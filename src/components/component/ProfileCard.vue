@@ -37,14 +37,16 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 
+interface Member {
+  memberName?: string;
+  memberBirth?: string;
+  memberPhoneNumber?: string;
+  memberWarning?: string;
+  memberDamageCount?: number;
+}
+
 const props = defineProps<{
-  member: {
-    memberName: string,
-    memberBirth: string,
-    memberPhoneNumber: string,
-    memberWarning: string,
-    memberDamageCount: number
-  }
+  member: Member | null // member가 null일 수 있도록 수정
 }>()
 
 // 나이계산

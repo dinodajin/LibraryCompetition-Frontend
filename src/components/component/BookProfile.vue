@@ -25,14 +25,16 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
+
+interface Book {
+  bookTitle?: string;
+  bookAuthor?: string;
+  bookLabel?: string;
+}
+
 const props = defineProps<{
-  book: {
-    bookTitle?: string,
-    bookAuthor?: string,
-    bookLabel?: string,
-    coverImage?: string
-  }
-}>();
+  book: Book | null // book이 null일 수 있도록 수정
+}>()
 </script>
 
 <style scoped>
