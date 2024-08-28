@@ -8,7 +8,7 @@
             <th>이름</th>
             <th>대출일</th>
             <th>반납일</th>
-            <th>도서 상태</th>
+            <th>훼손유무</th>
           </tr>
         </thead>
         <tbody>
