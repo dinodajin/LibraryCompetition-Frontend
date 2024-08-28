@@ -39,6 +39,7 @@ const fetchMemberDetails = async () => {
   const id = route.query.id as string // URL 쿼리 파라미터에서 id 추출
   if (id) {
     member.value = await store.dispatch('fetchMemberById', id)
+    store.dispatch('fetchLoanRecordsByMemberId', id); // 대출 기록 가져오기
   } else {
     console.error('No member ID found in route query parameters.')
   }
