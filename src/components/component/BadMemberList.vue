@@ -6,7 +6,7 @@
         <li v-for="member in badMembers" 
             :key="member.id" 
             class="bad-member-item" 
-            @click="goToMemberDetail(member.id)">
+            @click="goToMemberDetail(member.memberId)">
           {{ member.memberName }}
         </li>
       </ul>
