@@ -38,7 +38,7 @@ const store = createStore({
     memberId: {},
     bookId: {},
     loanRecords: [],
-    memberDamageRecords: [],
+    memberDamageRecords: []
   },
 
   getters: {
@@ -71,6 +71,22 @@ const store = createStore({
     getBadMemberList(state) {
       return state.memberList.filter((member) => member.memberWarning === '위험');
     },
+    getMemberWarningRatio(state) {
+      const total = state.memberList.length;
+      if (total === 0) return { safe: 0, warning: 0, danger: 0 };
+  
+      const counts = {
+        safe: state.memberList.filter(member => member.memberWarning === '정상').length,
+        warning: state.memberList.filter(member => member.memberWarning === '경고').length,
+        danger: state.memberList.filter(member => member.memberWarning === '위험').length,
+      };
+  
+      return {
+        safe: (counts.safe / total * 100).toFixed(2),
+        warning: (counts.warning / total * 100).toFixed(2),
+        danger: (counts.danger / total * 100).toFixed(2),
+      };
+    },
   },
 
   mutations: {
@@ -90,8 +106,8 @@ const store = createStore({
       state.memberList = memberList
     },
     setMemberDamageRecords(state, records) {
-      state.memberDamageRecords = records;
-    },
+      state.memberDamageRecords = records
+    }
   },
 
   actions: {
