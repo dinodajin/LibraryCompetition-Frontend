@@ -6,7 +6,7 @@
       <SearchBar />
       <BookList />
       <div class="bottom-content">
-        <MemberStatusRatio />
+        <BookStatusRatio />
         <DamagedBookList />
       </div>
     </div>
@@ -17,7 +17,7 @@
 import Sidebar from '../component/Sidebar.vue'
 import SearchBar from '../component/SearchBar.vue'
 import BookList from '../component/BookList.vue'
-import MemberStatusRatio from '../component/MemberStatusRation.vue'
+import BookStatusRatio from '../component/BookStatusRation.vue'
 import DamagedBookList from '../component/DamagedBookList.vue'
 </script>
 

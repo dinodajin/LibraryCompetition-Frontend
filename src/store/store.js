@@ -87,6 +87,22 @@ const store = createStore({
         danger: (counts.danger / total * 100).toFixed(2),
       };
     },
+    getBookWarningRatio(state) {
+      const total = state.bookList.length;
+      if (total === 0) return { safe: 0, warning: 0, danger: 0 };
+  
+      const counts = {
+        safe: state.bookList.filter(book => book.bookWarning === '정상').length,
+        warning: state.bookList.filter(book => book.bookWarning === '경고').length,
+        danger: state.bookList.filter(book => book.bookWarning === '위험').length,
+      };
+  
+      return {
+        safe: (counts.safe / total * 100).toFixed(2),
+        warning: (counts.warning / total * 100).toFixed(2),
+        danger: (counts.danger / total * 100).toFixed(2),
+      };
+    },
   },
 
   mutations: {
