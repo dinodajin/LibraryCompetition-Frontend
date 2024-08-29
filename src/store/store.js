@@ -37,7 +37,8 @@ const store = createStore({
     damageDegree: {},
     memberId: {},
     bookId: {},
-    loanRecords: []
+    loanRecords: [],
+    memberDamageRecords: [],
   },
 
   getters: {
@@ -87,7 +88,10 @@ const store = createStore({
     },
     setMemberList(state, memberList) {
       state.memberList = memberList
-    }
+    },
+    setMemberDamageRecords(state, records) {
+      state.memberDamageRecords = records;
+    },
   },
 
   actions: {

@@ -5,12 +5,12 @@
       <table>
         <thead>
           <tr>
-            <th>TITLE</th>
-            <th>훼손 내용</th>
+            <th>제목</th>
+            <th>훼손 유무</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="record in records" :key="record.id" class="record-row" @click="goToBookDetail(record.id)">
+          <tr v-for="record in records" :key="record.bookId" class="record-row" @click="goToBookDetail(record.bookId)">
             <td>{{ record.title }}</td>
             <td>{{ record.damage }}</td>
           </tr>
@@ -21,22 +21,44 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 
+const store = useStore();
+const route = useRoute();
 const router = useRouter();
+const memberId = route.query.id as string;
+
+const records = ref<{ bookId: number, damage: string, title: string }[]>([]);
 
 const goToBookDetail = (bookId: number) => {
   router.push({ path: '/bookdetail', query: { id: bookId } });
 };
 
-const records = [
-  { id: 1, title: 'Book 6', damage: '표지 오염'},
-  { id: 2, title: 'Book 7', damage: '표지 찢어짐'},
-  { id: 3, title: 'Book 9', damage: '표지 낙서'},
-];
+onMounted(async () => {
+  if (memberId) {
+    await store.dispatch('fetchLoanRecordsByMemberId', memberId);
 
+    const loanRecords = store.state.loanRecords;
+
+    const filteredRecordsWithDetails = await Promise.all(
+      loanRecords
+        .filter(record => record.damageDegree === '훼손')
+        .map(async (record) => {
+          const book = await store.dispatch('fetchBookById', record.bookId);
+
+          return {
+            bookId: record.bookId,
+            damage: record.damageDegree,
+            title: book ? book.bookTitle : 'Unknown Title'
+          };
+        })
+    );
+    records.value = filteredRecordsWithDetails;
+  }
+});
 </script>
-
 <style scoped>
 .return-record {
   display: flex;
@@ -95,21 +117,10 @@ td {
 }
 
 .record-row {
-    transition: transform 0.2s ease-in-out;
-  }
-  
+  transition: transform 0.2s ease-in-out;
+}
+
 .record-row:hover {
   transform: scale(1.02);
 }
-
-/* .badge {
-  padding: 5px 10px;
-  border-radius: 10px;
-  color: #fff;
-} */
-
-/* .훼손 {
-  background-color: #ffebe6;
-  color: #e74c3c;
-} */
 </style>
