@@ -9,7 +9,7 @@
       </div>
       <div class="right-column">
         <div class="top-row">
-          <StatusIndicator1 />
+          <StatusIndicator1 :member="member" />
           <ReturnRecord />
         </div>
         <div class="bottom-row">
@@ -36,12 +36,16 @@ const route = useRoute()
 const member = ref(null)
 
 const fetchMemberDetails = async () => {
-  const id = route.query.id as string // URL 쿼리 파라미터에서 id 추출
+  const id = route.query.id as string;
   if (id) {
-    member.value = await store.dispatch('fetchMemberById', id)
-    store.dispatch('fetchLoanRecordsByMemberId', id); // 대출 기록 가져오기
+    try {
+      member.value = await store.dispatch('fetchMemberById', id);
+      await store.dispatch('fetchLoanRecordsByMemberId', id);
+    } catch (error) {
+      console.error('Failed to fetch member details or loan records:', error);
+    }
   } else {
-    console.error('No member ID found in route query parameters.')
+    console.error('No member ID found in route query parameters.');
   }
 }
 

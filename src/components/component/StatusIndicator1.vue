@@ -1,18 +1,32 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, defineProps } from 'vue';
 
 interface Member {
-  loanCount: number;
-  damageCount: number;
+  loanIds: Array<any>;
+  memberDamageCount: number;
 }
 
-const member = ref<Member>({ loanCount: 10, damageCount: 3 });
+const props = defineProps<{
+  member: Member | null; // member가 null일 수 있음을 명시
+}>();
 
-const riskScore = computed(() => member.value.loanCount * 2 + member.value.damageCount * 10);
+// 기본값 설정
+const defaultMember: Member = {
+  loanIds: [],
+  memberDamageCount: 0
+};
 
+// 위험 점수 계산
+const riskScore = computed(() => {
+  const member = props.member || defaultMember;
+  return member.loanIds.length * 2 + member.memberDamageCount * 10;
+});
+
+// 위험 수준 계산
 const riskLevel = computed(() => {
-  if (riskScore.value < 30) return { label: '청정', color: '#007bff' };
-  if (riskScore.value < 60) return { label: '주의', color: '#ffc107' };
+  const score = riskScore.value;
+  if (score < 30) return { label: '청정', color: '#007bff' };
+  if (score < 60) return { label: '주의', color: '#ffc107' };
   return { label: '위험', color: '#dc3545' };
 });
 </script>
@@ -26,8 +40,8 @@ const riskLevel = computed(() => {
         <p>{{ riskScore }}</p>
       </div>
       <div class="status-details">
-        <p><strong>대출 횟수:</strong> {{ member.loanCount }}</p>
-        <p><strong>훼손 횟수:</strong> {{ member.damageCount }}</p>
+        <p><strong>대출 횟수:</strong> {{ props.member?.loanIds.length || 0 }}</p>
+        <p><strong>훼손 횟수:</strong> {{ props.member?.memberDamageCount || 0 }}</p>
       </div>
     </div>
   </div>
