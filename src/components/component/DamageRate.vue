@@ -8,71 +8,39 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted } from 'vue';
 import Chart from 'chart.js/auto';
 
-const route = useRoute();
-const bookId = route.params.bookId; // URL에서 bookId 가져오기
-
+// 데이터와 옵션 정의
 const data = ref({
-  labels: ['훼손된 비율', '훼손되지 않은 비율'],
+  labels: ['훼손된 비율', '훼손되지 않은 비율 '],
   datasets: [
     {
       label: '도서 훼손율',
-      data: [0, 100], // 초기 데이터, 나중에 업데이트
+      data: [70, 30], // 초기 데이터, 실제로는 API 호출 등을 통해 업데이트
       backgroundColor: ['#FF6384', '#afafaf'],
       hoverOffset: 4
     }
   ]
 });
 
-const fetchBookData = async () => {
-  try {
-    const response = await fetch('/path/to/book.json'); // Replace with the actual URL
-    if (!response.ok) {
-      console.error(`HTTP error! Status: ${response.status}`);
-      const errorText = await response.text();
-      console.error('Error response:', errorText);
-      return;
-    }
-    
-    const text = await response.text();
-    console.log('Response text:', text);
-    
-    try {
-      const books = JSON.parse(text);
-      const book = books.find(book => book.bookId === bookId);
-      
-      if (book) {
-        const totalDamage = 100; // Whole damage scale is 100
-        const damagePercentage = book.bookDamage;
-
-        data.value.datasets[0].data = [damagePercentage, totalDamage - damagePercentage];
-        updateChart();
-      } else {
-        console.error('Book not found');
-      }
-    } catch (jsonError) {
-      console.error('Failed to parse JSON:', jsonError);
-    }
-  } catch (error) {
-    console.error('Failed to fetch book data:', error);
-  }
+// 훼손율 수치를 계산하는 함수
+const calculateDamagePercentage = (dataset) => {
+  const total = dataset.data.reduce((a, b) => a + b, 0);
+  return dataset.data[1] / total * 100; // 훼손된 도서 비율
 };
 
-
-const updateChart = () => {
+onMounted(() => {
   const ctx = document.getElementById('damageChart').getContext('2d');
   new Chart(ctx, {
     type: 'doughnut',
     data: data.value,
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: false, // 비율 유지하지 않기
       plugins: {
         legend: {
-          display: false
+          display: false // 범례 제거
         },
         tooltip: {
           callbacks: {
@@ -81,6 +49,7 @@ const updateChart = () => {
             }
           }
         },
+        // 도넛 차트 중앙에 텍스트를 그리는 플러그인
         beforeDraw: (chart) => {
           const ctx = chart.ctx;
           const width = chart.width;
@@ -89,26 +58,19 @@ const updateChart = () => {
           const percentage = calculateDamagePercentage(dataset);
 
           ctx.save();
-          ctx.font = 'bold 14px Arial';
+          ctx.font = 'bold 14px Arial'; // 텍스트 크기 조정
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = '#000';
+
+          // 텍스트를 차트 중앙에 그리기
           ctx.fillText(`${Math.round(percentage)}%`, width / 2, height / 2);
           ctx.restore();
         }
       }
     }
   });
-};
-
-const calculateDamagePercentage = (dataset) => {
-  const total = dataset.data.reduce((a, b) => a + b, 0);
-  return dataset.data[0] / total * 100; // 훼손된 도서 비율
-};
-
-// Fetch book data when component is mounted or bookId changes
-onMounted(fetchBookData);
-watch(() => route.params.bookId, fetchBookData);
+});
 </script>
 
 <style scoped>
@@ -116,31 +78,31 @@ watch(() => route.params.bookId, fetchBookData);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
-  height: 200px;
+  padding: 10px; /* 패딩 조정 */
+  height: 200px; /* 전체 컴포넌트 높이 */
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  box-sizing: border-box;
+  width: 100%; /* 전체 폭에 맞추기 */
+  box-sizing: border-box; /* 패딩 포함 */
 }
 
 .dashboard-title {
-  font-size: 18px;
+  font-size: 18px; /* 헤더 글씨 크기 조정 */
   margin-bottom: 12px;
 }
 
 .chart-container {
   width: 70%;
-  height: 70%;
+  height: 70%; /* 차트 컨테이너 높이 조정 */
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
+  position: relative; /* 차트 위치를 조정할 수 있도록 설정 */
 }
 
 canvas {
-  width: 100% !important;
-  height: 100% !important;
+  width: 100% !important; /* 차트 너비 조정 */
+  height: 100% !important; /* 차트 높이 조정 */
 }
 </style>
