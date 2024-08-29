@@ -93,12 +93,12 @@ h3 {
   border-radius: 8px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
-  max-width: calc(100% - 24px); /* Ensure the item doesn't exceed the parent's width */
+  max-width: calc(100% - 24px);
 }
 
 .report-item:hover {
-  transform: scale(1.03); /* Slightly reduce the scale factor */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Slightly reduce the shadow on hover */
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .member-info {
@@ -113,6 +113,6 @@ p {
 }
 
 .bottom-space {
-  height: 20px; /* Adjust the height as needed for bottom margin */
+  height: 20px;
 }
 </style>

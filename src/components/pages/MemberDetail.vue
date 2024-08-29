@@ -65,7 +65,7 @@ onMounted(() => {
   grid-template-columns: 1fr 3fr;
   gap: 16px;
   padding: 20px;
-  box-sizing: border-box; /* Include padding in height */
+  box-sizing: border-box;
   background-color: #f5f7fa;
 }
 
@@ -94,13 +94,13 @@ onMounted(() => {
 .bottom-row {
   display: grid;
   gap: 16px;
-  height: 100%; /* Fill remaining space */
+  height: 100%;
 }
 
 @media (max-width: 1024px) {
   .grid-container {
     grid-template-columns: 1fr;
-    height: auto; /* Allow dynamic height */
+    height: auto;
   }
 
   .bottom-row {

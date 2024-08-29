@@ -42,9 +42,9 @@ onMounted(() => {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  max-height: 400px; /* Adjust this value to fit 5 rows */
+  max-height: 400px;
   box-sizing: border-box;
-  overflow: hidden; /* Hide any overflow to ensure scroll only appears on the table container */
+  overflow: hidden;
   font-size: 1rem;
 }
 
@@ -70,7 +70,7 @@ ul {
 }
 
 .bad-book-item {
-  flex: 1 1 calc(50% - 10px); /* 2개씩 블럭 형태로 배치 */
+  flex: 1 1 calc(50% - 10px);
   background-color: #f5f7fa;
   padding: 10px;
   border-radius: 8px;

@@ -67,7 +67,7 @@ onMounted(async () => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 20px;
-  height: 350px; /* Adjust this value to fit 5 rows */
+  height: 350px;
   overflow: hidden;
   font-size: 1rem;
   box-sizing: border-box;
@@ -81,7 +81,7 @@ h3 {
 }
 
 .table-container {
-  max-height: 100%; /* Adjust this value as needed */
+  max-height: 100%;
   margin-bottom: 16px;
   overflow-y: auto;
   border: 1px #ddd;

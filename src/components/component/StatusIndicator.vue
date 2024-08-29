@@ -22,7 +22,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 16px;
-    max-height: 300px; /* Adjust this value to fit 5 rows */
+    max-height: 300px;
     overflow: hidden;
     font-size: 1rem;
   }

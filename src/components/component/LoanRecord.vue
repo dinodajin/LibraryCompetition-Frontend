@@ -68,7 +68,7 @@ onMounted(() => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   padding: 20px;
-  max-height: 300px; /* Adjust this value to fit 5 rows */
+  max-height: 300px;
   overflow: hidden;
   font-size: 1rem;
 }
@@ -81,10 +81,10 @@ h3 {
 }
 
 .table-container {
-  max-height: 100%; /* Adjust this value as needed */
+  max-height: 100%;
   margin-bottom: 16px;
   overflow-y: auto;
-  border: 1px #ddd; /* Optional: Adds border around the scrollable area */
+  border: 1px #ddd;
 }
 
 table {
@@ -137,6 +137,6 @@ td {
 }
 
 .bottom-space {
-  height: 20px; /* Adjust the height as needed for bottom margin */
+  height: 20px;
 }
 </style>

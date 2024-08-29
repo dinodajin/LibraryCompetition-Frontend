@@ -76,7 +76,7 @@ onUnmounted(() => {
 
 input {
   width: 100%;
-  padding: 10px 50px 10px 10px; /* 오른쪽에 50px 공간 확보 */
+  padding: 10px 50px 10px 10px;
   border: none;
   border-radius: 5px;
   font-size: 16px;
@@ -86,7 +86,7 @@ input {
 
 .search-button {
   position: absolute;
-  right: 10px; /* 아이콘을 오른쪽에 배치 */
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   border: none;
@@ -111,7 +111,6 @@ input {
   transform: scale(1.2);
 }
 
-/* z-index를 추가하여 settings-popup 위에 표시되도록 함 */
 .search-bar > .settings-icon {
   z-index: 10;
 }

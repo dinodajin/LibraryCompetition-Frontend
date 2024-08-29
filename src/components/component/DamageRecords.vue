@@ -13,7 +13,6 @@
   height: 500px;
   box-sizing: border-box;
 
-  /* Centering */
   display: flex;
   justify-content: center;
   align-items: center;

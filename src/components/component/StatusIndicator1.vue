@@ -108,8 +108,6 @@ h3 {
 
 .status-circle:hover {
   transform: scale(1.05);
-  /* background-size: 200% 200%;
-  animation: waveEffect 2s infinite; */
 }
 
 @keyframes waveEffect {

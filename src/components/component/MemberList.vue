@@ -82,7 +82,7 @@ const statusClass = (warning: string) => {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  max-height: 400px; /* Adjust this value to fit 5 rows */
+  max-height: 400px;
   min-height: 400px;
   box-sizing: border-box;
   overflow: hidden;

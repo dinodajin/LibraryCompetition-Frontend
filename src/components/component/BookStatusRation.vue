@@ -22,16 +22,12 @@ import { Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-// Register Chart.js components
 ChartJS.register(Title, Tooltip, Legend, ArcElement, ChartDataLabels);
 
-// Access Vuex store
 const store = useStore();
 
-// Compute ratio data from store
 const ratio = computed(() => store.getters.getBookWarningRatio);
 
-// Compute counts for the display
 const totalBooks = computed(() => store.getters.getBookList.length);
 
 const legendData = computed(() => {
@@ -40,18 +36,17 @@ const legendData = computed(() => {
   const ratioValues = [ratio.value.safe, ratio.value.warning, ratio.value.danger];
 
   return labels.map((label, index) => {
-    const value = Number(ratioValues[index]); // Ensure value is a number
-    const count = isNaN(value) ? 0 : Math.round((value / 100) * totalBooks.value); // Calculate count
+    const value = Number(ratioValues[index]);
+    const count = isNaN(value) ? 0 : Math.round((value / 100) * totalBooks.value);
     return {
       label,
       color: colors[index],
-      percentage: isNaN(value) ? 0 : value.toFixed(2), // Ensure value is not NaN
+      percentage: isNaN(value) ? 0 : value.toFixed(2),
       count
     };
   });
 });
 
-// Chart data and options
 const chartData = computed(() => ({
   labels: ['정상', '경고', '위험'],
   datasets: [
@@ -67,7 +62,7 @@ const chartOptions = {
   responsive: true,
   plugins: {
     legend: {
-      display: false, // Disable built-in legend
+      display: false,
     },
     tooltip: {
       callbacks: {
@@ -80,7 +75,7 @@ const chartOptions = {
       },
     },
     datalabels: {
-      display: false, // Hide internal data labels
+      display: false,
     },
   },
 };
