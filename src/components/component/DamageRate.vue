@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard">
-    <h1 class="dashboard-title">도서 훼손율 대시보드</h1>
+    <h1 class="dashboard-title">도서 훼손율</h1>
     <div class="chart-container">
       <canvas id="damageChart"></canvas>
     </div>
@@ -8,39 +8,58 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import Chart from 'chart.js/auto';
 
-// 데이터와 옵션 정의
-const data = ref({
-  labels: ['훼손된 비율', '훼손되지 않은 비율 '],
-  datasets: [
-    {
-      label: '도서 훼손율',
-      data: [70, 30], // 초기 데이터, 실제로는 API 호출 등을 통해 업데이트
-      backgroundColor: ['#FF6384', '#afafaf'],
-      hoverOffset: 4
-    }
-  ]
-});
+const store = useStore();
+const route = useRoute();
+const chart = ref(null);
 
-// 훼손율 수치를 계산하는 함수
-const calculateDamagePercentage = (dataset) => {
-  const total = dataset.data.reduce((a, b) => a + b, 0);
-  return dataset.data[1] / total * 100; // 훼손된 도서 비율
+// 현재 도서 ID와 해당 도서의 훼손율 데이터
+const bookDamage = ref(0);
+const totalDamage = ref(0);
+
+// 도서 데이터 업데이트 함수
+const updateChart = () => {
+  const bookId = route.query.id;
+  if (bookId) {
+    const bookList = store.getters.getBookList;
+    const book = bookList.find(b => b.bookId === bookId);
+    
+    if (book) {
+      // 총 훼손량 계산
+      totalDamage.value = bookList.reduce((acc, b) => acc + b.bookDamage, 0);
+      // 선택된 도서의 훼손량
+      bookDamage.value = book.bookDamage;
+    }
+  }
 };
 
-onMounted(() => {
+// 차트 초기화 함수
+const initChart = () => {
   const ctx = document.getElementById('damageChart').getContext('2d');
-  new Chart(ctx, {
+  if (chart.value) {
+    chart.value.destroy(); // 기존 차트 제거
+  }
+  chart.value = new Chart(ctx, {
     type: 'doughnut',
-    data: data.value,
+    data: {
+      labels: ['훼손된 비율', '훼손되지 않은 비율'],
+      datasets: [{
+        label: '도서 훼손율',
+        data: [(bookDamage.value / 100) * 100, ((100 - bookDamage.value)/100) * 100],
+        backgroundColor: ['#FF6384', '#afafaf'],
+        hoverOffset: 4
+      }]
+    },
     options: {
       responsive: true,
-      maintainAspectRatio: false, // 비율 유지하지 않기
+      maintainAspectRatio: false,
       plugins: {
         legend: {
-          display: false // 범례 제거
+          display: false
         },
         tooltip: {
           callbacks: {
@@ -49,28 +68,33 @@ onMounted(() => {
             }
           }
         },
-        // 도넛 차트 중앙에 텍스트를 그리는 플러그인
         beforeDraw: (chart) => {
           const ctx = chart.ctx;
           const width = chart.width;
           const height = chart.height;
           const dataset = chart.data.datasets[0];
-          const percentage = calculateDamagePercentage(dataset);
+          const percentage = (bookDamage.value / totalDamage.value * 100).toFixed(2);
 
           ctx.save();
-          ctx.font = 'bold 14px Arial'; // 텍스트 크기 조정
+          ctx.font = 'bold 14px Arial';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = '#000';
-
-          // 텍스트를 차트 중앙에 그리기
-          ctx.fillText(`${Math.round(percentage)}%`, width / 2, height / 2);
+          ctx.fillText(`${percentage}%`, width / 2, height / 2);
           ctx.restore();
         }
       }
     }
   });
+};
+
+onMounted(() => {
+  updateChart(); // 컴포넌트 마운트 시 데이터 업데이트
+  initChart(); // 차트 초기화
 });
+
+// URL 쿼리 파라미터나 도서 목록이 변경될 때 차트 업데이트
+watch(() => [route.query.id, store.getters.getBookList], updateChart, { immediate: true });
 </script>
 
 <style scoped>
