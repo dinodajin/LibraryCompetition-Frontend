@@ -25,8 +25,8 @@
             <td>{{ book.bookDamage }}</td>
             <td>{{ book.bookLabel }}</td>
             <td>
-              <span :class="['book-status', statusClass(book.bookDamage)]">
-                {{ statusClass(book.bookDamage) }}
+              <span :class="['book-status', statusClass(book.bookWarning)]">
+                {{ statusClass(book.bookWarning) }}
               </span>
             </td>
           </tr>
@@ -62,16 +62,14 @@ onMounted(() => {
 })
 
 // 상태 클래스 결정
-const statusClass = (status: number) => {
-  switch (status) {
-    case 10:
-      return 'safe'
-    case 20:
-      return 'normal'
-    case 30:
-      return 'danger'
-    case 50:
-      return 'warning'
+const statusClass = (warning: string) => {
+  switch (warning) {
+    case "정상":
+      return '정상'
+    case "경고":
+      return '경고'
+    case "위험":
+      return '위험'
     default:
       return 'other'
   }
@@ -145,24 +143,19 @@ tbody td {
   color: #fff;
 }
 
-.danger {
-  background-color: #ffebe6;
-  color: #e74c3c;
-}
-
-.safe {
+.정상 {
   background-color: #e6f7e6;
   color: #27ae60;
 }
 
-.normal {
-  background-color: #ebf0ff;
-  color: #3498db;
-}
-
-.warning {
+.경고 {
   background-color: #fff5e6;
   color: #f39c12;
+}
+
+.위험 {
+  background-color: #ffebe6;
+  color: #e74c3c;
 }
 
 .other {
