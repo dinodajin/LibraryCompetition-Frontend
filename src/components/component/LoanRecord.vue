@@ -61,41 +61,34 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.loan-record {
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+.loan-records {
+  background: #fff; /* 전체 배경을 흰색으로 설정 */
   padding: 20px;
-  max-height: 300px;
-  overflow: hidden;
-  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h3 {
-  display: flex;
   margin: 0 0 20px;
   font-size: 18px;
   color: #333;
 }
 
 .table-container {
-  max-height: 100%;
   margin-bottom: 16px;
   overflow-y: auto;
-  border: 1px #ddd;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  background-color: #fff; /* 테이블 배경을 흰색으로 설정 */
 }
 
 thead {
   position: sticky;
   top: 0;
-  background-color: #ffffff;
+  background-color: #fff; /* 헤더 배경을 흰색으로 설정 */
   z-index: 1;
 }
 
@@ -104,9 +97,8 @@ th {
   font-weight: 600;
   color: #666;
   text-align: left;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #eee;
   padding: 15px;
+  border-bottom: 2px solid #eee;
 }
 
 td {
@@ -126,10 +118,6 @@ td {
   background-color: #fff5e6;
   color: #f39c12;
 }
-
-/* .연체 {
-  background-color: #ff7f7f;
-} */
 
 .반납 {
   background-color: #e6f7e6;

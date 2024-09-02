@@ -8,10 +8,10 @@
             <th>NAME</th>
             <td>{{ member?.memberName }}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <th>AGE</th>
             <td>{{ member ? calculateAge(member.memberBirth) : 'N/A' }}</td>
-          </tr>
+          </tr> -->
           <tr>
             <th>BIRTHDAY</th>
             <td>{{ member?.memberBirth }}</td>
